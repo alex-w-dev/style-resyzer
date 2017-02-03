@@ -68,26 +68,17 @@ function changeSizedStyle(styleProp, ratio){
 
     if(!window.styleSizerPrevRatio[styleProp])window.styleSizerPrevRatio[styleProp] = 1;
 
-    /* to default */
+    var _ratio = ratio / window.styleSizerPrevRatio[styleProp];
+
+    /* to new ratio */
     for(var i = 0; i < window.styleSizerGlobalChildren.length; i++){
-        updateSize(window.styleSizerGlobalChildren[i], styleProp, window.styleSizerPrevRatio[styleProp]);
+        updateSize(window.styleSizerGlobalChildren[i], styleProp, _ratio);
     }
     for(var i = 0; i < window.styleSizerGlobalUglyChildren.length; i++){
-        updateSize(window.styleSizerGlobalUglyChildren[i], styleProp, window.styleSizerPrevRatio[styleProp]);
+        updateSize(window.styleSizerGlobalUglyChildren[i], styleProp, _ratio);
     }
 
-    console.log(window.styleSizerPrevRatio, styleProp, window.styleSizerPrevRatio[styleProp]);
-    window.styleSizerPrevRatio[styleProp] = 1 / ratio;
-
-    setTimeout(function(){
-        /* to new ratio */
-        for(var i = 0; i < window.styleSizerGlobalChildren.length; i++){
-            updateSize(window.styleSizerGlobalChildren[i], styleProp, ratio);
-        }
-        for(var i = 0; i < window.styleSizerGlobalUglyChildren.length; i++){
-            updateSize(window.styleSizerGlobalUglyChildren[i], styleProp, ratio);
-        }
-    }, 1100)
+    window.styleSizerPrevRatio[styleProp] = ratio;
 
     return this;
 }
