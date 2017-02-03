@@ -1,4 +1,5 @@
 function changeSizedStyle(styleProp, ratio){
+    if (!ratio)return;
     function getStyleOfElement(el,styleProp)
     {
         var x = el;
@@ -122,7 +123,7 @@ function addControlPanel(prop, mainBlock){
 
     submit.onclick = function () {
         submit.disabled = true;
-        changeSizedStyle(input.value, input2.value);
+        changeSizedStyle(input.value, parseFloat(input2.value));
         setTimeout(function(){submit.disabled = false;}, 1100)
     };
 };
