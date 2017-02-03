@@ -86,44 +86,66 @@ function changeSizedStyle(styleProp, ratio){
     return this;
 }
 
+
 changeSizedStyle('font-size', 1);
-var block = document.createElement('div');
-var span = document.createElement('span');
-span.innerHTML = 'Property:';
-var input = document.createElement('input');
-var span2 = document.createElement('span');
-span2.innerHTML = '| Ratio:';
-var input2 = document.createElement('input');
-var submit = document.createElement('button');
-submit.innerHTML = 'apply';
 
 
-window.document.body.appendChild(block)
-block.appendChild(span);
-block.appendChild(input);
-block.appendChild(span2);
-block.appendChild(input2);
-block.appendChild(submit);
 
-block.style.position = 'fixed';
-block.style.zIndex = '9999';
-block.style.padding = '0px 10px';
-block.style.left = '0';
-block.style.top = '0';
-block.style.display = 'flex';
-block.style.alignItems = 'center';
-block.style.width = '300px';
-block.style.backgroundColor = 'white';
-span2.style.whiteSpace = 'nowrap';
-input.setAttribute('type', 'text');
-input.style.margin = '0';
-input.style.height = '20px';
-input.value = 'font-size';
-input2.setAttribute('type', 'text');
-input2.style.margin = '0';
-input2.style.height = '20px';
-input2.value = 1;
+/* VISUAL CONTROL PANEL */
+function addControlPanel(prop, mainBlock){
+    var block = document.createElement('div');
+    var span = document.createElement('span');
+    span.innerHTML = 'Property:';
+    var input = document.createElement('input');
+    var span2 = document.createElement('span');
+    span2.innerHTML = '| Ratio:';
+    var input2 = document.createElement('input');
+    var submit = document.createElement('button');
+    submit.innerHTML = 'apply';
 
-submit.onclick = function () {
-    changeSizedStyle(input.value, input2.value);
+    mainBlock.appendChild(block);
+    block.appendChild(span);
+    block.appendChild(input);
+    block.appendChild(span2);
+    block.appendChild(input2);
+    block.appendChild(submit);
+
+    block.style.display = 'flex';
+    block.style.alignItems = 'center';
+    block.style.width = '300px';
+    span2.style.whiteSpace = 'nowrap';
+    input.setAttribute('type', 'text');
+    input.style.margin = '0';
+    input.style.height = '20px';
+    input.value = prop;
+    input2.setAttribute('type', 'text');
+    input2.style.margin = '0';
+    input2.style.height = '20px';
+    input2.value = 1;
+
+    submit.onclick = function () {
+        submit.disabled = true;
+        changeSizedStyle(input.value, input2.value);
+        setTimeout(function(){submit.disabled = false;}, 1100)
+    };
 };
+
+
+var mainBlock = document.createElement('div');
+
+window.document.body.appendChild(mainBlock);
+
+mainBlock.style.position = 'fixed';
+mainBlock.style.zIndex = '9999';
+mainBlock.style.padding = '0px 10px';
+mainBlock.style.left = '0';
+mainBlock.style.top = '0';
+mainBlock.style.display = 'flex';
+mainBlock.style.flexDirection = 'column';
+mainBlock.style.width = '300px';
+mainBlock.style.backgroundColor = 'white';
+
+addControlPanel('font-size', mainBlock);
+addControlPanel('line-height', mainBlock);
+
+
