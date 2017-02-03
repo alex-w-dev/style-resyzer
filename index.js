@@ -30,7 +30,7 @@ function changeSizedStyle(styleProp, ratio){
             }
 
             var val = parseFloat(style) * ratio;
-            el.style.cssText = styleProp + ':' + val + valText;
+            if(val)el.style.cssText = styleProp + ':' + val + valText;
         }
     }
 

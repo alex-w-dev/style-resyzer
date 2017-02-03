@@ -1,0 +1,2 @@
+Just copy and past this code to the browser console, and see how site's font-size will change (1.5 ratio)
+Also you can change all sizable styles, just use changeSizedStyle('line-height', 1.5) or changeSizedStyle('font-size', 1.5) etc
