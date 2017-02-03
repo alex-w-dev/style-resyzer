@@ -30,7 +30,10 @@ function changeSizedStyle(styleProp, ratio){
             }
 
             var val = parseFloat(style) * ratio;
-            if(val)el.style.cssText = styleProp + ':' + val + valText;
+            if(val){
+                el.style.cssText = styleProp + ':' + val + valText;
+                console.log(ratio);
+            }
         }
     }
 
@@ -54,19 +57,73 @@ function changeSizedStyle(styleProp, ratio){
         }
     }
     if(!window.styleSizerGlobalChildren){
+        window.styleSizerPrevRatio = 1;
         window.styleSizerGlobalChildren = [];
         window.styleSizerGlobalUglyChildren = [];
         addSheetsOfTree(document.body)
     }
 
+    /* to default */
     for(var i = 0; i < window.styleSizerGlobalChildren.length; i++){
-        updateSize(window.styleSizerGlobalChildren[i], styleProp, ratio);
+        updateSize(window.styleSizerGlobalChildren[i], styleProp, window.styleSizerPrevRatio);
     }
     for(var i = 0; i < window.styleSizerGlobalUglyChildren.length; i++){
-        updateSize(window.styleSizerGlobalUglyChildren[i], styleProp, ratio);
+        updateSize(window.styleSizerGlobalUglyChildren[i], styleProp, window.styleSizerPrevRatio);
     }
+
+    window.styleSizerPrevRatio = 1 / ratio;
+
+    setTimeout(function(){
+        /* to new ratio */
+        for(var i = 0; i < window.styleSizerGlobalChildren.length; i++){
+            updateSize(window.styleSizerGlobalChildren[i], styleProp, ratio);
+        }
+        for(var i = 0; i < window.styleSizerGlobalUglyChildren.length; i++){
+            updateSize(window.styleSizerGlobalUglyChildren[i], styleProp, ratio);
+        }
+    }, 1100)
 
     return this;
 }
 
-changeSizedStyle('font-size', 1.5);
+changeSizedStyle('font-size', 1);
+var block = document.createElement('div');
+var span = document.createElement('span');
+span.innerHTML = 'Property:';
+var input = document.createElement('input');
+var span2 = document.createElement('span');
+span2.innerHTML = '| Ratio:';
+var input2 = document.createElement('input');
+var submit = document.createElement('button');
+submit.innerHTML = 'apply';
+
+
+window.document.body.appendChild(block)
+block.appendChild(span);
+block.appendChild(input);
+block.appendChild(span2);
+block.appendChild(input2);
+block.appendChild(submit);
+
+block.style.position = 'fixed';
+block.style.zIndex = '9999';
+block.style.padding = '0px 10px';
+block.style.left = '0';
+block.style.top = '0';
+block.style.display = 'flex';
+block.style.alignItems = 'center';
+block.style.width = '300px';
+block.style.backgroundColor = 'white';
+span2.style.whiteSpace = 'nowrap';
+input.setAttribute('type', 'text');
+input.style.margin = '0';
+input.style.height = '20px';
+input.value = 'font-size';
+input2.setAttribute('type', 'text');
+input2.style.margin = '0';
+input2.style.height = '20px';
+input2.value = 1;
+
+submit.onclick = function () {
+    changeSizedStyle(input.value, input2.value);
+};
