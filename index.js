@@ -31,8 +31,11 @@ function changeSizedStyle(styleProp, ratio){
 
             var val = parseFloat(style) * ratio;
             if(val){
-                el.style.cssText = styleProp + ':' + val + valText;
-                console.log(ratio);
+                if(styleProp == 'font-size')el.style.fontSize = val + valText;
+                if(styleProp == 'font-weight')el.style.fontWeight = val + valText;
+                if(styleProp == 'line-height')el.style.lineHeight = val + valText;
+                if(styleProp == 'height')el.style.height = val + valText;
+                if(styleProp == 'width')el.style.width = val + valText;
             }
         }
     }
@@ -57,21 +60,24 @@ function changeSizedStyle(styleProp, ratio){
         }
     }
     if(!window.styleSizerGlobalChildren){
-        window.styleSizerPrevRatio = 1;
+        window.styleSizerPrevRatio = {};
         window.styleSizerGlobalChildren = [];
         window.styleSizerGlobalUglyChildren = [];
         addSheetsOfTree(document.body)
     }
 
+    if(!window.styleSizerPrevRatio[styleProp])window.styleSizerPrevRatio[styleProp] = 1;
+
     /* to default */
     for(var i = 0; i < window.styleSizerGlobalChildren.length; i++){
-        updateSize(window.styleSizerGlobalChildren[i], styleProp, window.styleSizerPrevRatio);
+        updateSize(window.styleSizerGlobalChildren[i], styleProp, window.styleSizerPrevRatio[styleProp]);
     }
     for(var i = 0; i < window.styleSizerGlobalUglyChildren.length; i++){
-        updateSize(window.styleSizerGlobalUglyChildren[i], styleProp, window.styleSizerPrevRatio);
+        updateSize(window.styleSizerGlobalUglyChildren[i], styleProp, window.styleSizerPrevRatio[styleProp]);
     }
 
-    window.styleSizerPrevRatio = 1 / ratio;
+    console.log(window.styleSizerPrevRatio, styleProp, window.styleSizerPrevRatio[styleProp]);
+    window.styleSizerPrevRatio[styleProp] = 1 / ratio;
 
     setTimeout(function(){
         /* to new ratio */
